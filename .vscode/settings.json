@@ -1,0 +1,29 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  },
+  "python.languageServer": "Pylance",
+  "editor.formatOnSave": true,
+  "python.formatting.provider": "black",
+  "[python]": {
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true, // 保存時に自動整形する
+    "editor.formatOnPaste": false, // ペースト時に自動整形を行わない
+    "editor.formatOnType": false, // 入力後に自動整形を行わない
+  },
+  "cSpell.words": [
+    "dciborow",
+    "devcontainers",
+    "jordemort",
+    "mypy",
+    "pylint",
+    "pypoetry",
+    "pyright",
+    "pytest",
+    "reviewdog",
+    "sasanquaneuf"
+  ],
+  "python.analysis.extraPaths": [
+    "./src"
+  ],
+}

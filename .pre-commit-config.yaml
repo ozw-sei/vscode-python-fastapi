@@ -1,0 +1,33 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+      - id: black
+        args: [--line-length, "120"]
+        language_version: python3.11
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+    - id: isort
+      name: isort (python)
+
+  - repo: https://github.com/myint/docformatter
+    rev: v1.6.0-rc7
+    hooks:
+    - id: docformatter
+      name: docformatter
+      description: 'Formats docstrings to follow PEP 257.'
+      entry: docformatter
+      args: [-i, --wrap-summaries, "120", --wrap-description, "120"]
+      language: python
+      types: [python]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+    - id: check-yaml
+  - repo: https://gitlab.com/bmares/check-json5
+    rev: v1.0.0
+    hooks:
+    - id: check-json5
+

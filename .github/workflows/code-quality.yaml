@@ -1,0 +1,76 @@
+name: Lint
+
+on:
+  pull_request:
+    types: ["opened", "synchronize", "ready_for_review", "reopened"]
+
+env:
+  PYTHON_VERSION: 3.11
+  POETRY_VERSION: 1.1.7
+
+jobs:
+  check-lint-and-styling:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.11.2
+          architecture: x64
+      - uses: pre-commit/action@v3.0.0
+
+
+  check-type-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.11.2
+          architecture: x64
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python - --version 1.4.0
+          echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      - name: Poetry Version
+        run: |
+          poetry --version
+      - name: Poetry Install Dependencies
+        run: |
+          poetry install --no-interaction
+      - name: Cache Poetry cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pypoetry
+          key: poetry-cache-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ env.POETRY_VERSION }}
+
+      - name: Get Pull Request Number
+        id: pr
+        run: echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Show URL
+        run: echo Pull Request is ${{ github.server_url }}/${{ github.repository }}/pull/${{ steps.pr.outputs.pull_request_number }}
+      # $GITHUB_STEP_SUMMARYに書き込むと、step summaryを生成できる
+      - name: Adding markdown
+        run: echo '### [PR \#${{ steps.pr.outputs.pull_request_number }}](${{ github.server_url }}/${{ github.repository }}/pull/${{ steps.pr.outputs.pull_request_number }})' >> $GITHUB_STEP_SUMMARY
+      - uses: jordemort/action-pyright@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # You need this
+          reporter: github-pr-review # Change reporter.
+          lib: true
+      - uses: dciborow/action-pylint@0.0.7
+        with:
+          github_token: ${{ secrets.github_token }}
+          # Change reviewdog reporter if you need [github-pr-check,github-check,github-pr-review].
+          reporter: github-pr-review
+          # Change reporter level if you need.
+          # GitHub Status Check won't become failure with warning.
+          level: warning
+          glob_pattern: "**/*.py"
+      - name: Run pytest
+        run: poetry run pytest src
