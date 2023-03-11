@@ -11,11 +11,15 @@
     "editor.formatOnPaste": false, // ペースト時に自動整形を行わない
     "editor.formatOnType": false, // 入力後に自動整形を行わない
   },
+  "python.pythonPath": "/usr/local/bin/python",
   "cSpell.words": [
+    "autouse",
     "dciborow",
     "devcontainers",
+    "fastapi",
     "jordemort",
     "mypy",
+    "pydantic",
     "pylint",
     "pypoetry",
     "pyright",
@@ -23,7 +27,14 @@
     "reviewdog",
     "sasanquaneuf"
   ],
+  "python.terminal.activateEnvironment": true,
   "python.analysis.extraPaths": [
-    "./src"
+    "${workspaceFolder}/app",
   ],
+  "python.testing.pytestArgs": [
+    "app"
+  ],
+  "python.testing.cwd": "${workspaceFolder}/",
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
 }

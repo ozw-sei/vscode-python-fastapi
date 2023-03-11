@@ -1,0 +1,9 @@
+.venv
+.vscode
+.devcontainer
+.github
+containers
+README.md
+.editorconfig
+.gitignore
+.pre-commit-config.yaml

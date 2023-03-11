@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  application:
+    build:
+      context: .
+      dockerfile: containers/Dockerfile.development
+    depends_on:
+      - db
+    volumes:
+      - ./app/:/app/
+    ports:
+      - 3000:80
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_SERVER=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=postgres
+    # docker-compose の中を devcontainer にする場合はこちらを使う
+    # volumes:
+    #   - vscode-extension-volume:/home/vscode/.vscode-server/extensions
+  db:
+    image: postgres:15.2
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_SERVER=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=postgres
+volumes:
+  # vscode-extension-volume: {}
+  postgres_data: {}

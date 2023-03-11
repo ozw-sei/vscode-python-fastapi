@@ -73,4 +73,4 @@ jobs:
           level: warning
           glob_pattern: "**/*.py"
       - name: Run pytest
-        run: poetry run pytest src
+        run: poetry run pytest

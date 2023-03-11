@@ -7,6 +7,8 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+fastapi = "^0.94.0"
+uvicorn = {extras = ["standard"], version = "^0.21.0"}
 
 
 [tool.poetry.group.dev.dependencies]
@@ -33,5 +35,15 @@ line_length = 120
 minversion = "6.0"
 addopts = "-ra -q"
 testpaths = [
-    "src",
+    "app",
 ]
+
+[tool.pyright]
+include = ["app"]
+exclude = [
+    "**/node_modules",
+    "**/__pycache__",
+]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.11"

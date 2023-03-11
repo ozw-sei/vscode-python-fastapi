@@ -1,0 +1,10 @@
+FROM tiangolo/uvicorn-gunicorn:python3.11
+COPY . /app
+
+WORKDIR /app
+
+# install poetry
+RUN curl -sSL https://install.python-poetry.org | python - --version 1.4.0 && \
+    ~/.local/bin/poetry config virtualenvs.create false
+
+RUN ~/.local/bin/poetry install

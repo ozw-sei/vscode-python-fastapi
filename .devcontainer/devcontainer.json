@@ -1,7 +1,8 @@
 {
   "image": "mcr.microsoft.com/devcontainers/python:3.11",
   "forwardPorts": [
-    3000
+    3000,
+    5432
   ],
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:1": {
